@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://balyviwkcvtg5"]
+
+[ext_resource type="Script" uid="uid://bu7gxl6dna5il" path="res://pine_tree.gd" id="1_ff3rl"]
+[ext_resource type="Texture2D" uid="uid://b7rhtttevhxtj" path="res://characters/ground_shadow.png" id="1_usc5w"]
+[ext_resource type="Texture2D" uid="uid://caqfk2xng5v5u" path="res://trees/pine_tree.png" id="2_ff3rl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ikdqj"]
+radius = 19.0263
+
+[node name="PineTree" type="StaticBody2D"]
+script = ExtResource("1_ff3rl")
+
+[node name="GroundShadow" type="Sprite2D" parent="."]
+modulate = Color(0.487149, 0.553871, 0.622644, 1)
+scale = Vector2(0.785714, 0.923077)
+texture = ExtResource("1_usc5w")
+
+[node name="PineTree" type="Sprite2D" parent="."]
+position = Vector2(0, -60)
+texture = ExtResource("2_ff3rl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ikdqj")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+radius = 400.0
+avoidance_layers = 3

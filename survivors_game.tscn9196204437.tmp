@@ -1,0 +1,110 @@
+[gd_scene load_steps=6 format=3 uid="uid://ce03i2s6m0uba"]
+
+[ext_resource type="PackedScene" uid="uid://dfddrgnfgv5g3" path="res://player.tscn" id="1_3cish"]
+[ext_resource type="Script" uid="uid://ca13cywsqdcsf" path="res://survivors_game.gd" id="1_qqaft"]
+[ext_resource type="PackedScene" uid="uid://balyviwkcvtg5" path="res://pine_tree.tscn" id="2_y3pti"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_l26od"]
+vertices = PackedVector2Array(1980.05, 1135.93, -10.0234, 1123.06, -12.9688, -6.13281, 1985.94, -33.8516)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-23, -16, -20, 1133, 1990, 1146, 1996, -44, 1996, -44)])
+
+[sub_resource type="Curve2D" id="Curve2D_7jj1j"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -41, -91, 0, 0, 0, 0, 2023, -70, 0, 0, 0, 0, 2035, 1179, 0, 0, 0, 0, -45, 1179, 0, 0, 0, 0, -41, -89)
+}
+point_count = 5
+
+[node name="Game" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_qqaft")
+tree_scene = ExtResource("2_y3pti")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -30
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_left = -8.0
+offset_top = -5.0
+offset_right = 1951.0
+offset_bottom = 1088.0
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Score: 0"
+
+[node name="LevelLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_right = 0.015
+offset_left = 133.0
+offset_right = 213.2
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Level: 1"
+
+[node name="Player" parent="." instance=ExtResource("1_3cish")]
+position = Vector2(753, 539)
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.509804)
+
+[node name="Label" type="Label" parent="GameOver/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -46.0
+offset_top = -11.5
+offset_right = 46.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 150
+text = "GAME OVER"
+
+[node name="Restart" type="Button" parent="GameOver/ColorRect"]
+process_mode = 2
+layout_mode = 0
+offset_left = 712.0
+offset_top = 646.0
+offset_right = 1248.0
+offset_bottom = 764.0
+theme_override_font_sizes/font_size = 80
+text = "Restart Game"
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." groups=["navigation_2d"]]
+navigation_polygon = SubResource("NavigationPolygon_l26od")
+navigation_layers = 3
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_7jj1j")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+unique_name_in_owner = true
+position = Vector2(-41, -91)
+rotation = 0.0101741
+
+[connection signal="health_depleted" from="Player" to="." method="_on_player_health_depleted"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="GameOver/ColorRect/Restart" to="." method="_on_restart_pressed"]

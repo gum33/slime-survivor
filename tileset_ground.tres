@@ -1,0 +1,25 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://ceec37eolajwb"]
+
+[ext_resource type="Texture2D" uid="uid://wr6nxy7htrsh" path="res://Tiles/medievalTile_57.png" id="1_uhlhj"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hten8"]
+texture = ExtResource("1_uhlhj")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[resource]
+sources/0 = SubResource("TileSetAtlasSource_hten8")

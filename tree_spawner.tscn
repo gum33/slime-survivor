@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0d5ssmva33ir"]
+
+[ext_resource type="Script" uid="uid://ban1nph0ggycf" path="res://tree_spawner.gd" id="1_hjwup"]
+[ext_resource type="PackedScene" uid="uid://co15sdtk06b6f" path="res://rock.tscn" id="2_dkscf"]
+
+[node name="TreeSpawner" type="Node2D" groups=["navigation_2d"]]
+y_sort_enabled = true
+script = ExtResource("1_hjwup")
+rock_scene = ExtResource("2_dkscf")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+radius = 20.0
+avoidance_layers = 3

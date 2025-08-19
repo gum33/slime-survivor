@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0d5ssmva33ir"]
+
+[ext_resource type="Script" uid="uid://ban1nph0ggycf" path="res://tree_spawner.gd" id="1_hjwup"]
+
+[node name="TreeSpawner" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_hjwup")

@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bn4t7t5a0lej5"]
+
+[ext_resource type="Script" uid="uid://bqr75s73bntbt" path="res://speedboost.gd" id="1_03amd"]
+[ext_resource type="Texture2D" uid="uid://m04red8h5n1l" path="res://upgrades/speedboost.png" id="1_ij8kx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_03amd"]
+radius = 29.0
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource("1_03amd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_03amd")
+
+[node name="Speedboost" type="Sprite2D" parent="."]
+texture = ExtResource("1_ij8kx")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

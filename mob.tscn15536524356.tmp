@@ -1,0 +1,144 @@
+[gd_scene load_steps=16 format=3 uid="uid://c2tovnmq3xqlv"]
+
+[ext_resource type="Script" uid="uid://b5rddpax2sx06" path="res://mob.gd" id="1_nokgg"]
+[ext_resource type="Texture2D" uid="uid://ran5ggsm2vby" path="res://characters/SlimeARt/SmallSlime_Green.png" id="3_ubaqv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nokgg"]
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ubaqv"]
+bg_color = Color(0.0756147, 0.726772, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p11y5"]
+atlas = ExtResource("3_ubaqv")
+region = Rect2(0, 310, 310, 310)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s5nov"]
+atlas = ExtResource("3_ubaqv")
+region = Rect2(310, 310, 310, 310)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3mxk"]
+atlas = ExtResource("3_ubaqv")
+region = Rect2(620, 310, 310, 310)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qmh0"]
+atlas = ExtResource("3_ubaqv")
+region = Rect2(930, 310, 310, 310)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubaqv"]
+atlas = ExtResource("3_ubaqv")
+region = Rect2(0, 310, 310, 310)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfurk"]
+atlas = ExtResource("3_ubaqv")
+region = Rect2(0, 0, 310, 310)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ieysi"]
+atlas = ExtResource("3_ubaqv")
+region = Rect2(310, 0, 310, 310)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cixyi"]
+atlas = ExtResource("3_ubaqv")
+region = Rect2(620, 0, 310, 310)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ulmv"]
+atlas = ExtResource("3_ubaqv")
+region = Rect2(930, 0, 310, 310)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pcqmr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p11y5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s5nov")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3mxk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qmh0")
+}],
+"loop": false,
+"name": &"Death",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubaqv")
+}],
+"loop": false,
+"name": &"Hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gfurk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ieysi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cixyi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ulmv")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nokgg"]
+radius = 51.0098
+
+[node name="Mob" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+wall_min_slide_angle = 0.0
+platform_floor_layers = 4294967040
+script = ExtResource("1_nokgg")
+damage = null
+explosion_radius = null
+base_speed = null
+
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+path_desired_distance = 60.0
+navigation_layers = 3
+avoidance_enabled = true
+radius = 60.0
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -51.0
+offset_top = -113.0
+offset_right = 53.0
+offset_bottom = -86.0
+theme_override_styles/background = SubResource("StyleBoxFlat_nokgg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ubaqv")
+value = 100.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, -79)
+scale = Vector2(0.624194, 0.709677)
+sprite_frames = SubResource("SpriteFrames_pcqmr")
+animation = &"Idle"
+
+[node name="DeathArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathArea"]
+position = Vector2(0, -32)
+shape = SubResource("CircleShape2D_nokgg")
+
+[connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]
