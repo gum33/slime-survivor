@@ -81,7 +81,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Global="*res://Global.gd"
+Global="*res://autoload/Global.gd"
 
 [display]
 

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpixa50ukcvio"]
+
+[ext_resource type="PackedScene" uid="uid://0op2s4f4dovi" path="res://scenes/mob.tscn" id="1_wb85a"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wb85a"]
+radius = 50.0
+
+[node name="GreenSlime" instance=ExtResource("1_wb85a")]
+damage = 10
+explosion_radius = 50.0
+base_speed = 150.0
+
+[node name="AnimatedSprite2D" parent="." index="2"]
+animation = &"Death"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="3"]
+position = Vector2(3, -35)
+shape = SubResource("CircleShape2D_wb85a")
