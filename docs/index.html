@@ -5,21 +5,28 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
 		<title>Slime surivor game</title>
 		<style>
-html, body, #canvas {
-	margin: 0;
-	padding: 0;
-	border: 0;
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: black;
+    touch-action: none;
 }
 
 body {
-	color: white;
-	background-color: black;
-	overflow: hidden;
-	touch-action: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #canvas {
-	display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    display: block;
 }
 
 #canvas:focus {
