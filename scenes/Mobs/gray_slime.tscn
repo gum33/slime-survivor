@@ -90,9 +90,6 @@ radius = 77.0
 
 [node name="GraySlime" instance=ExtResource("1_rwv8s")]
 script = ExtResource("2_li3e7")
-damage = 10
-explosion_radius = 50.0
-base_speed = 150.0
 
 [node name="ProgressBar" parent="." index="1"]
 offset_left = -42.0
