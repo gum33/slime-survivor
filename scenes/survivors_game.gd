@@ -49,64 +49,17 @@ func reset_trees():
 func reset_level_state() -> void:
 	%Player.global_position = $SpawnPosition.global_position
 	camera.global_position = $SpawnPosition.global_position
-	#%Player.set_health(100)
 	mob_level_kill_count = 0
 	mob_level_kills_required = ceil(mob_level_kills_required * 1.5)
-	
-	var mobs = get_tree().get_nodes_in_group("mob")
-	for mob in mobs:
-		mob.queue_free()
 	reset_trees()
+	$MobTimer.paused = false
 
 func spawn_mob():
 	var mob = $MobSpawner.make_mob()
 	navigation_2d.add_child(mob)
 	mob.health_depleted.connect(_on_mob_health_depleted)
 
-# call this when spawning
-func get_spawn_position() -> Vector2:
-	var cam = camera
-	
-	# Get the camera's center position in the world
-	var cam_center = cam.global_position
-	
-	# Correctly calculate the play area from the TileMap's used tiles
-	var used_rect = wall_tilemap.get_used_rect()
-	var play_area = Rect2(
-		wall_tilemap.to_global(wall_tilemap.map_to_local(used_rect.position)),
-		wall_tilemap.to_global(wall_tilemap.map_to_local(used_rect.end) - wall_tilemap.map_to_local(used_rect.position))
-	)
 
-	# Get the camera's visible area in world coordinates
-	var visible_area = cam.get_viewport().get_visible_rect()
-	visible_area.position = cam_center - visible_area.size / 2.0
-	
-	# Define a spawning distance range
-	var min_dist = max(visible_area.size.x, visible_area.size.y) * 0.7
-	var max_dist = min_dist + 500.0 # Adjust this value as needed
-	
-	var max_tries = 50
-	for i in range(max_tries):
-		# 1. Generate a random point in a ring around the camera
-		var angle = randf_range(0.0, PI * 2)
-		var distance = randf_range(min_dist, max_dist)
-		
-		var offset = Vector2(cos(angle), sin(angle)) * distance
-		var pos = cam_center + offset
-		
-		# 2. Check if the generated point is within the play area
-		if not play_area.has_point(pos):
-			continue
-		
-		# 3. Check if the generated point is not inside a wall
-		var tile_coords = wall_tilemap.local_to_map(wall_tilemap.to_local(pos))
-		var tile_id = wall_tilemap.get_cell_source_id(tile_coords)
-		
-		# If it's in the play area and not a wall, it's a valid spawn point
-		if tile_id == -1:
-			return pos
-	
-	return Vector2.ZERO # No valid position found
 func _on_mob_health_depleted() -> void:
 	Global.add_score(1)
 	mob_level_kill_count += 1
@@ -118,8 +71,14 @@ func _on_mob_health_depleted() -> void:
 
 
 func load_next_level():
+	$MobTimer.paused = true
+	var mobs = get_tree().get_nodes_in_group("mob")
+	for mob in mobs:
+		mob.can_drop_upgrade = false
+		mob.die()
 	var level_transition = preload("res://scenes/level_transition.tscn").instantiate()
 	$HUD.add_child(level_transition)
+	
 	
 
 func setup_next_level():
@@ -143,7 +102,6 @@ func _on_restart_pressed() -> void:
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 	
-
 
 func _on_start_game_pressed() -> void:
 	pass # Replace with function body.

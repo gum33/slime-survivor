@@ -8,19 +8,22 @@ signal health_depleted
 @export var explosion_radius: float = 50.0
 
 @onready var player = get_node("/root/Game/World/Player")
-
+@export var death_pitch: float = 1.0
 @export var base_speed: float = 150
 var speed: float
 var health: float
 @onready var sprite = $AnimatedSprite2D
 @onready var health_bar: ProgressBar = $ProgressBar
-
 # Reference to the NavigationAgent2D child node
 @onready var nav_agent: NavigationAgent2D = $NavAgent
-var is_dead: bool = false
+## Flag that turns on when mob is dead
+var is_dead: bool = false 
+## Flag that disables mob being able to drop upgrades
+var can_drop_upgrade: bool = true
 
 func _ready() -> void:
 	$NavAgent.radius = $CollisionShape2D.shape.radius + 10
+	$DeathPop.pitch_scale = death_pitch
 	speed = base_speed * pow(1.2, Global.level -1)
 	health = max_health
 	sprite.animation = "Idle"
@@ -33,7 +36,7 @@ func _ready() -> void:
 		print("Error: NavigationAgent2D node not found as a child of the mob.")
 		set_process(false)
 		set_physics_process(false)
-	
+
 	
 func _physics_process(delta: float) -> void:
 	if is_dead:
@@ -66,27 +69,26 @@ func take_damage(damage: int) -> void:
 
 	if health <= 0:
 		die()
+		return
+	$HitSound.pitch_scale = randf_range(0.95, 1.05)
+	$HitSound.play()
 
 func update_health_bar() -> void:
 	health_bar.max_value = max_health
 	health_bar.value = health
 
-func die():
+## Kills the mob
+func die() -> void:
 	if is_dead:
 		return
 	$AnimatedSprite2D.scale *= 1.3
 	$CollisionShape2D.call_deferred("set", "disabled", true)
 	is_dead = true
-	if randf() < upgrade_chance:
-			pick_upgrade()
+	if randf() < upgrade_chance and can_drop_upgrade:
+		pick_upgrade()
 	sprite.play("Death")
-	
-
-		#const SMOKE_SCENE = preload("res://smoke_explosion/smoke_explosion.tscn")
-		#var smoke = SMOKE_SCENE.instantiate()
-		#get_parent().add_child(smoke)
-		#smoke.global_position = global_position
 	health_depleted.emit()
+	$DeathPop.play()
 
 	
 func _on_animation_finished():

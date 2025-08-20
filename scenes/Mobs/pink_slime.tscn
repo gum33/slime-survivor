@@ -90,6 +90,7 @@ radius = 35.0143
 
 [node name="PinkSlime" instance=ExtResource("1_8hi5d")]
 script = ExtResource("2_shklp")
+death_pitch = 1.9
 
 [node name="AnimatedSprite2D" parent="." index="2"]
 position = Vector2(2, -49)

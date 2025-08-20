@@ -1,3 +1,5 @@
+AudioStreamPlayer2D
+AudioListener2D
 MarginContainer
 TileMapLayer
 CollisionShape2D
@@ -10,5 +12,3 @@ GridContainer
 VBoxContainer
 PanelContainer
 CanvasLayer
-Timer
-NavigationObstacle2D

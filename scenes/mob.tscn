@@ -1,7 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://0op2s4f4dovi"]
+[gd_scene load_steps=17 format=3 uid="uid://0op2s4f4dovi"]
 
 [ext_resource type="Script" uid="uid://bms3re0qidy4h" path="res://scenes/mob.gd" id="1_nokgg"]
+[ext_resource type="AudioStream" uid="uid://cuuyaq7lww8kp" path="res://assets/sounds/570459__splendidjams__simple-pop-sound-effect.wav" id="3_d4cuo"]
 [ext_resource type="Texture2D" uid="uid://ran5ggsm2vby" path="res://assets/characters/SlimeARt/SmallSlime_Green.png" id="3_ubaqv"]
+[ext_resource type="AudioStream" uid="uid://oyh1qi0e2uda" path="res://assets/sounds/495117__nebulasnails__wet-splat-2.mp3" id="4_71rcx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nokgg"]
 corner_radius_top_left = 8
@@ -126,5 +128,12 @@ position = Vector2(2, -79)
 scale = Vector2(0.624194, 0.709677)
 sprite_frames = SubResource("SpriteFrames_pcqmr")
 animation = &"Idle"
+
+[node name="DeathPop" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_d4cuo")
+pitch_scale = 1.5
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_71rcx")
 
 [connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]

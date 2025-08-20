@@ -63,3 +63,5 @@ theme_override_styles/background = SubResource("StyleBoxFlat_i3pqv")
 theme_override_styles/fill = SubResource("StyleBoxFlat_hqtel")
 value = 100.0
 show_percentage = false
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]

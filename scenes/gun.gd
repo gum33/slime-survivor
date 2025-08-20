@@ -25,6 +25,8 @@ func shoot():
 	new_bullet.global_position = %ShootingPoint.global_position
 	new_bullet.global_rotation = %ShootingPoint.global_rotation
 	%ShootingPoint.add_child(new_bullet)
+	$ShootSound.pitch_scale = randf_range(0.95, 1.05)
+	$ShootSound.play()
 
 func _on_timer_timeout() -> void:
 	shoot()
