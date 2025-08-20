@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://c2qumq6kmfyq8"]
 
 [ext_resource type="Script" uid="uid://3c11n6p3l6pw" path="res://scenes/gun.gd" id="1_og67c"]
-[ext_resource type="Texture2D" uid="uid://cswb5do8rrj7q" path="res://assets/pistol/pistol.png" id="1_x77fm"]
 [ext_resource type="AudioStream" uid="uid://d36kxx8rycel5" path="res://assets/sounds/186950__readeonly__toy_cannon_shot.wav" id="3_gp1hk"]
+[ext_resource type="Texture2D" uid="uid://dhqp2dirobmr2" path="res://assets/characters/gun.png" id="3_qd4js"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dk5gl"]
 radius = 414.019
@@ -18,13 +18,15 @@ shape = SubResource("CircleShape2D_dk5gl")
 [node name="WeaponPivot" type="Marker2D" parent="."]
 
 [node name="Pistol" type="Sprite2D" parent="WeaponPivot"]
-position = Vector2(55, -37)
-scale = Vector2(0.9, 0.9)
-texture = ExtResource("1_x77fm")
+y_sort_enabled = true
+position = Vector2(53, -18)
+scale = Vector2(2.7875, 2.925)
+texture = ExtResource("3_qd4js")
 
 [node name="ShootingPoint" type="Marker2D" parent="WeaponPivot/Pistol"]
 unique_name_in_owner = true
-position = Vector2(25.5556, -12.2222)
+position = Vector2(14.4444, -4.44444)
+scale = Vector2(1.3875, 1.39583)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5

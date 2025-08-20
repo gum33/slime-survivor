@@ -10,14 +10,15 @@ radius = 18.0
 top_level = true
 rotation = 0.0181462
 collision_layer = 0
-collision_mask = 3
+collision_mask = 6
 script = ExtResource("1_v8qja")
-
-[node name="Projectile" type="Sprite2D" parent="."]
-position = Vector2(-11, 0)
-texture = ExtResource("2_t4vbm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_2b2rl")
+
+[node name="Projectile" type="Sprite2D" parent="."]
+position = Vector2(-2.99951, 0.0544356)
+scale = Vector2(0.5, 0.581)
+texture = ExtResource("2_t4vbm")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

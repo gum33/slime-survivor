@@ -2,6 +2,7 @@ extends Area2D
 
 @onready var shoot_timer: Timer = $Timer
 @export var damage: float = 25
+@onready var sprite: AnimatedSprite2D = $WeaponPivot/GunSprite
 
 func _physics_process(delta: float) -> void:
 	var direction = get_global_mouse_position() - global_position

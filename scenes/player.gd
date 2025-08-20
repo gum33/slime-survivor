@@ -13,14 +13,17 @@ var bullet_speed: float = 1.0
 var is_invincible = false
 @onready var gun_pivot = $Gun
 @onready var hit_sound = $HitSound
+@onready var sprite: AnimatedSprite2D = $SoldierSprite
 
 var hit_sounds: Array[AudioStream] = []
 var last_direction: float = 1.0 # 1.0 for right, -1.0 for left
 
 var knockback_velocity: Vector2 = Vector2.ZERO
 var knockback_friction: float = 1200  # how quickly it stops
-
+var is_hurt: bool = false
 func _ready() -> void:
+	sprite.animation = "Run"
+	sprite.play()
 		# Preload all the hit sounds
 	hit_sounds = [
 		preload("res://assets/sounds/player_hit/hit1.wav"),
@@ -30,10 +33,12 @@ func _ready() -> void:
 	add_to_group("player")
 	$HurtBox.body_entered.connect(_on_body_entered)
 
+
 func _on_body_entered(body) -> void:
 	if body.is_in_group("mob") and not body.is_dead and not is_invincible:
 		# Apply damage
 		set_health(health - body.damage)
+		play_hurt_animation()
 		var sound = hit_sounds[randi() % hit_sounds.size()]
 		hit_sound.stream = sound
 		hit_sound.pitch_scale = randf_range(0.95, 1.05) # optional variation
@@ -44,6 +49,12 @@ func _on_body_entered(body) -> void:
 		# Kill the mob
 		body.die()
 		
+func play_hurt_animation() -> void:
+	is_hurt = true
+	sprite.play("Hurt")
+	# Reset after animation finishes
+	await sprite.animation_finished
+	is_hurt = false
 
 func apply_knockback(direction: Vector2, strength: float):
 	knockback_velocity = direction * strength
@@ -54,24 +65,24 @@ func _physics_process(delta: float) -> void:
 	velocity += knockback_velocity
 	knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, knockback_friction * delta)
 	move_and_slide()
-	
-	if velocity.length() > 0.0:
-		%HappyBoo.play_walk_animation()
-	else:
-		%HappyBoo.play_idle_animation()
+	if not is_hurt:
+		if velocity.length() > 0.0:
+			sprite.play("Run")
+		else:
+			sprite.play("Idle")
 
 	if direction.x != 0.0:
 		last_direction = sign(direction.x)
-	if last_direction == 1.0:
-		%HappyBoo.scale.x = 1.0
+	if last_direction < 0:
+		sprite.flip_h = true
 	else:
-		%HappyBoo.scale.x = -1.0
-		# Apply knockback
+		sprite.flip_h = false
 
 func set_health(value: float) -> void:
 	health = value
 	%ProgressBar.value = health
 	if health <= 0.0:
+		sprite.play("Death")
 		health_depleted.emit()
 
 func set_speed(speed_value: float) -> void:
