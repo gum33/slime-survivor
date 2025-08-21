@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cygutjarfxhjx"]
+[gd_scene load_steps=8 format=3 uid="uid://cygutjarfxhjx"]
 
 [ext_resource type="Script" uid="uid://dkv7l3igjhx7q" path="res://scenes/main_menu.gd" id="1_06t4h"]
+[ext_resource type="Theme" uid="uid://d2tunkd46steo" path="res://scenes/hudtheme.tres" id="2_ekxnf"]
+[ext_resource type="Theme" uid="uid://bm786u6vsai0x" path="res://assets/UI/MenuButtons.tres" id="3_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://cn10e0gmjek1m" path="res://assets/UI/Default.png" id="4_8ln24"]
+[ext_resource type="Texture2D" uid="uid://81nr356kqwn4" path="res://assets/UI/Hover.png" id="5_rtw2f"]
+[ext_resource type="Texture2D" uid="uid://t7kobwlq6kdt" path="res://assets/UI/SoundOn.png" id="6_oa1go"]
+[ext_resource type="PackedScene" uid="uid://dqqpm4hdx7a7q" path="res://assets/UI/volume_slider.tscn" id="6_rtw2f"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -9,22 +15,62 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_06t4h")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 430.0
-offset_top = 113.0
-offset_right = 1263.0
-offset_bottom = 250.0
-theme_override_font_sizes/font_size = 100
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("2_ekxnf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("3_bqqt6")
+
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 60
 text = "Survive the game"
 
-[node name="StartGame" type="Button" parent="."]
-layout_mode = 0
-offset_left = 583.0
-offset_top = 278.0
-offset_right = 1027.0
-offset_bottom = 396.0
-theme_override_font_sizes/font_size = 80
-text = "Start Game"
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
 
-[connection signal="pressed" from="StartGame" to="." method="_on_start_game_pressed"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="StartGame" type="TextureButton" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture_normal = ExtResource("4_8ln24")
+texture_hover = ExtResource("5_rtw2f")
+stretch_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_oa1go")
+stretch_mode = 5
+
+[node name="volume_slider" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_rtw2f")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+bus_name = "Master"
+
+[connection signal="pressed" from="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]

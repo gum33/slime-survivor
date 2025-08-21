@@ -1,2 +1,3 @@
+AtlasTexture
 Theme
 TileSet

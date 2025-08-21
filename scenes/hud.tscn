@@ -1,85 +1,100 @@
-[gd_scene load_steps=2 format=3 uid="uid://dvgs8xuradnr8"]
+[gd_scene load_steps=3 format=3 uid="uid://dvgs8xuradnr8"]
 
 [ext_resource type="Script" uid="uid://cljr8xadd826" path="res://scenes/hud.gd" id="1_ahhtf"]
+[ext_resource type="Theme" uid="uid://d2tunkd46steo" path="res://scenes/hudtheme.tres" id="2_oo0fn"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_ahhtf")
 
-[node name="GlobalInfo" type="PanelContainer" parent="."]
-offset_left = 30.0
-offset_top = 20.0
-offset_right = 122.0
-offset_bottom = 80.0
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
 
-[node name="MarginContainer" type="MarginContainer" parent="GlobalInfo"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 5
+size_flags_vertical = 0
 
-[node name="GridContainer" type="GridContainer" parent="GlobalInfo/MarginContainer"]
+[node name="GlobalInfo" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("2_oo0fn")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/GlobalInfo"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/HBoxContainer/GlobalInfo/MarginContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="ScoreText" type="Label" parent="GlobalInfo/MarginContainer/GridContainer"]
+[node name="ScoreText" type="Label" parent="MarginContainer/HBoxContainer/GlobalInfo/MarginContainer/GridContainer"]
 layout_mode = 2
 text = "Score:"
 
-[node name="ScoreValue" type="Label" parent="GlobalInfo/MarginContainer/GridContainer"]
+[node name="ScoreValue" type="Label" parent="MarginContainer/HBoxContainer/GlobalInfo/MarginContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="Level" type="Label" parent="GlobalInfo/MarginContainer/GridContainer"]
+[node name="Level" type="Label" parent="MarginContainer/HBoxContainer/GlobalInfo/MarginContainer/GridContainer"]
 layout_mode = 2
 text = "Level:"
 
-[node name="LevelValue" type="Label" parent="GlobalInfo/MarginContainer/GridContainer"]
+[node name="LevelValue" type="Label" parent="MarginContainer/HBoxContainer/GlobalInfo/MarginContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "1"
 
-[node name="PanelContainer2" type="PanelContainer" parent="."]
-offset_left = 1750.0
-offset_top = 20.0
-offset_right = 1879.0
-offset_bottom = 107.0
-
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer2"]
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 5
+size_flags_horizontal = 10
+size_flags_vertical = 0
+theme = ExtResource("2_oo0fn")
 
-[node name="PlayerStats" type="GridContainer" parent="PanelContainer2/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="PlayerStats" type="GridContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="Speed" type="Label" parent="PanelContainer2/MarginContainer/PlayerStats"]
+[node name="Speed" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/PlayerStats"]
 layout_mode = 2
 text = "Speed:"
 
-[node name="SpeedValue" type="Label" parent="PanelContainer2/MarginContainer/PlayerStats"]
+[node name="SpeedValue" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/PlayerStats"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "150"
 
-[node name="Damage" type="Label" parent="PanelContainer2/MarginContainer/PlayerStats"]
+[node name="Damage" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/PlayerStats"]
 layout_mode = 2
 text = "Damage:"
 
-[node name="DamageValue" type="Label" parent="PanelContainer2/MarginContainer/PlayerStats"]
+[node name="DamageValue" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/PlayerStats"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "25"
 
-[node name="FireRate" type="Label" parent="PanelContainer2/MarginContainer/PlayerStats"]
+[node name="FireRate" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/PlayerStats"]
 layout_mode = 2
 text = "Fire Rate: "
 
-[node name="FireRateValue" type="Label" parent="PanelContainer2/MarginContainer/PlayerStats"]
+[node name="FireRateValue" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/MarginContainer/PlayerStats"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "1"

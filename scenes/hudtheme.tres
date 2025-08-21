@@ -1,5 +1,15 @@
-[gd_resource type="Theme" format=3 uid="uid://d2tunkd46steo"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://d2tunkd46steo"]
+
+[ext_resource type="Texture2D" uid="uid://b5amy7lgsy5iu" path="res://assets/UI/HudTexture.tres" id="1_wa5go"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dqe1m"]
+texture = ExtResource("1_wa5go")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
 
 [resource]
 Label/font_sizes/font_size = 32
 Label/fonts/font = null
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_dqe1m")
