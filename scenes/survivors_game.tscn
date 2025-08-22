@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://ce03i2s6m0uba"]
+[gd_scene load_steps=18 format=4 uid="uid://ce03i2s6m0uba"]
 
 [ext_resource type="PackedScene" uid="uid://c6kfyd6p7yg8" path="res://scenes/player.tscn" id="1_3cish"]
 [ext_resource type="Script" uid="uid://c7cvf8xlvuss2" path="res://scenes/survivors_game.gd" id="1_qqaft"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://dvgs8xuradnr8" path="res://scenes/hud.tscn" id="3_7jj1j"]
 [ext_resource type="PackedScene" uid="uid://dtsabg5y665sh" path="res://scenes/mob_spawner.tscn" id="4_edxvn"]
 [ext_resource type="Texture2D" uid="uid://cipa5faph568t" path="res://assets/Tiles/medieval_tilesheet.png" id="5_4bwrk"]
+[ext_resource type="PackedScene" uid="uid://b8y0ypjh1pf5m" path="res://scenes/game_over.tscn" id="5_r0s3i"]
+[ext_resource type="PackedScene" uid="uid://cmxfqoahbcguw" path="res://scenes/pause_menu.tscn" id="7_5beo8"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_l26od"]
 vertices = PackedVector2Array(4724.18, -1860.04, 4817.81, 3112.21, -2839.8, 3273.78, -2745.18, -1794.16, 1843.12, -1871.99)
@@ -2746,43 +2748,8 @@ autostart = true
 
 [node name="MobSpawner" parent="." instance=ExtResource("4_edxvn")]
 
-[node name="GameOver" type="CanvasLayer" parent="."]
-unique_name_in_owner = true
+[node name="GameOver" parent="." instance=ExtResource("5_r0s3i")]
 visible = false
-
-[node name="ColorRect" type="ColorRect" parent="GameOver"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.509804)
-
-[node name="Label" type="Label" parent="GameOver/ColorRect"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -46.0
-offset_top = -11.5
-offset_right = 46.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 150
-text = "GAME OVER"
-
-[node name="Restart" type="Button" parent="GameOver/ColorRect"]
-process_mode = 2
-layout_mode = 0
-offset_left = 712.0
-offset_top = 646.0
-offset_right = 1248.0
-offset_bottom = 764.0
-theme_override_font_sizes/font_size = 80
-text = "Restart Game"
 
 [node name="SpawnPosition" type="Marker2D" parent="."]
 position = Vector2(755, 539)
@@ -2838,6 +2805,8 @@ limit_right = 285
 limit_bottom = 190
 limit_smoothed = true
 
+[node name="pause_menu" parent="." instance=ExtResource("7_5beo8")]
+visible = false
+
 [connection signal="timeout" from="MobTimer" to="." method="_on_timer_timeout"]
-[connection signal="pressed" from="GameOver/ColorRect/Restart" to="." method="_on_restart_pressed"]
 [connection signal="health_depleted" from="World/Player" to="." method="_on_player_health_depleted"]

@@ -40,6 +40,7 @@ texture = ExtResource("1_rb0jl")
 region_rect = Rect2(0, 0, 51, 18)
 
 [resource]
+Button/font_sizes/font_size = 50
 Button/styles/disabled = null
 Button/styles/hover = SubResource("StyleBoxTexture_rb0jl")
 Button/styles/normal = SubResource("StyleBoxTexture_4xwvd")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cpg31r4r3km3w"]
+[gd_scene load_steps=7 format=3 uid="uid://cpg31r4r3km3w"]
 
 [ext_resource type="Script" uid="uid://dcsdqemxxy2dn" path="res://scenes/level_transition.gd" id="1_jywac"]
+[ext_resource type="Theme" uid="uid://d2tunkd46steo" path="res://scenes/hudtheme.tres" id="2_hp486"]
 
 [sub_resource type="Animation" id="Animation_jywac"]
 length = 0.001
@@ -74,21 +75,35 @@ offset_right = 1942.0
 offset_bottom = 1104.0
 color = Color(0.103236, 0.015555, 0.153961, 0.6)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 841.0
-offset_top = 443.0
-offset_right = 917.0
-offset_bottom = 504.0
-
-[node name="StageLabel" type="Label" parent="VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "Stage Complete"
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 process_mode = 3
 libraries = {
 &"": SubResource("AnimationLibrary_oukt6")
 }
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("2_hp486")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="StageLabel" type="Label" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 60
+text = "Stage Complete"

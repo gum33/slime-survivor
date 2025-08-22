@@ -3,8 +3,10 @@ extends Area2D
 @onready var shoot_timer: Timer = $Timer
 @export var damage: float = 25
 @onready var sprite: AnimatedSprite2D = $WeaponPivot/GunSprite
-
+var stop_fire: bool = false
 func _physics_process(delta: float) -> void:
+	if stop_fire:
+		return
 	var direction = get_global_mouse_position() - global_position
 	rotation_degrees = wrap(rotation_degrees, 0, 360)
 	if rotation_degrees > 90 and rotation_degrees < 270:
@@ -20,6 +22,8 @@ func set_fire_rate(fire_rate : float) -> void:
 	shoot_timer.wait_time = 1.0 / fire_rate
 	
 func shoot():
+	if stop_fire:
+		return
 	const BULLET = preload("res://scenes/bullet.tscn")
 	var new_bullet = BULLET.instantiate()
 	new_bullet.damage = damage

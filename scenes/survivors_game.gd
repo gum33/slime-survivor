@@ -36,6 +36,8 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	camera.position = %Player.global_position
 
+		
+
 func reset_trees():
 	for tree in get_tree().get_nodes_in_group("tree"):
 		tree.queue_free()
@@ -93,8 +95,8 @@ func _on_timer_timeout() -> void:
 
 
 func _on_player_health_depleted() -> void:
-	%GameOver.visible = true
-	get_tree().paused = true
+	$GameOver.game_over()
+
 
 	
 

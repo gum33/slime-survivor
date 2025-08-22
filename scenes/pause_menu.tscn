@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://cmxfqoahbcguw"]
+
+[ext_resource type="Script" uid="uid://bioh8msxi2fsl" path="res://scenes/pause_menu.gd" id="1_7l7mv"]
+[ext_resource type="Theme" uid="uid://d2tunkd46steo" path="res://scenes/hudtheme.tres" id="2_v4r4p"]
+[ext_resource type="Theme" uid="uid://bm786u6vsai0x" path="res://assets/UI/MenuButtons.tres" id="3_1s2dm"]
+[ext_resource type="PackedScene" uid="uid://dqqpm4hdx7a7q" path="res://assets/UI/volume_slider.tscn" id="4_88e76"]
+[ext_resource type="Texture2D" uid="uid://t7kobwlq6kdt" path="res://assets/UI/SoundOn.png" id="5_knqa7"]
+
+[node name="pause_menu" type="CanvasLayer"]
+script = ExtResource("1_7l7mv")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("2_v4r4p")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_1s2dm")
+text = "Resume"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_knqa7")
+
+[node name="volume_slider" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_88e76")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+bus_name = "Master"
+
+[connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]

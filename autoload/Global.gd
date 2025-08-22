@@ -13,3 +13,7 @@ func add_score(amount: int) -> void:
 func set_level(new_level: int) -> void:
 	level = new_level
 	emit_signal("level_changed", level)
+
+func reset_variables() -> void:
+	score = 0
+	level = 1

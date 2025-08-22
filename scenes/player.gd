@@ -21,6 +21,7 @@ var last_direction: float = 1.0 # 1.0 for right, -1.0 for left
 var knockback_velocity: Vector2 = Vector2.ZERO
 var knockback_friction: float = 1200  # how quickly it stops
 var is_hurt: bool = false
+var is_dead: bool = false
 func _ready() -> void:
 	sprite.animation = "Run"
 	sprite.play()
@@ -35,14 +36,12 @@ func _ready() -> void:
 
 
 func _on_body_entered(body) -> void:
+	if is_dead:
+		return
 	if body.is_in_group("mob") and not body.is_dead and not is_invincible:
 		# Apply damage
 		set_health(health - body.damage)
 		play_hurt_animation()
-		var sound = hit_sounds[randi() % hit_sounds.size()]
-		hit_sound.stream = sound
-		hit_sound.pitch_scale = randf_range(0.95, 1.05) # optional variation
-		hit_sound.play()
 		# Add knockback velocity
 		var direction = (global_position - body.global_position).normalized()
 		apply_knockback(direction,1000 )
@@ -50,6 +49,12 @@ func _on_body_entered(body) -> void:
 		body.die()
 		
 func play_hurt_animation() -> void:
+	if is_dead:
+		return
+	var sound = hit_sounds[randi() % hit_sounds.size()]
+	hit_sound.stream = sound
+	hit_sound.pitch_scale = randf_range(0.95, 1.05) # optional variation
+	hit_sound.play()
 	is_hurt = true
 	sprite.play("Hurt")
 	# Reset after animation finishes
@@ -60,6 +65,8 @@ func apply_knockback(direction: Vector2, strength: float):
 	knockback_velocity = direction * strength
 
 func _physics_process(delta: float) -> void:
+	if is_dead:
+		return
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * speed
 	velocity += knockback_velocity
@@ -82,6 +89,9 @@ func set_health(value: float) -> void:
 	health = value
 	%ProgressBar.value = health
 	if health <= 0.0:
+		$Gun.stop_fire = true
+		is_dead = true
+		$DeathScream.play()
 		sprite.play("Death")
 		health_depleted.emit()
 

@@ -68,6 +68,7 @@ func take_damage(damage: int) -> void:
 	update_health_bar()
 
 	if health <= 0:
+		health_depleted.emit()
 		die()
 		return
 	$HitSound.pitch_scale = randf_range(0.95, 1.05)
@@ -87,7 +88,6 @@ func die() -> void:
 	if randf() < upgrade_chance and can_drop_upgrade:
 		pick_upgrade()
 	sprite.play("Death")
-	health_depleted.emit()
 	$DeathPop.play()
 
 	
