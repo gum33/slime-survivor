@@ -9,7 +9,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/MarginContainer/ColorRect:modulate")
+tracks/0/path = NodePath("ColorRect:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -18,25 +18,13 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(0, 0, 0, 0)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasLayer/MarginContainer/ColorRect:color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0.103236, 0.015555, 0.153961, 0.6), Color(0.103236, 0.015555, 0.153961, 0.6)]
-}
 
 [sub_resource type="Animation" id="Animation_tjx4n"]
 resource_name = "fade_in"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/MarginContainer/ColorRect:modulate")
+tracks/0/path = NodePath("ColorRect:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -51,7 +39,7 @@ resource_name = "fade_out"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/MarginContainer/ColorRect:modulate")
+tracks/0/path = NodePath("ColorRect:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -81,6 +69,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jywac")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 0)
+layout_mode = 0
+offset_right = 1942.0
+offset_bottom = 1104.0
+color = Color(0.103236, 0.015555, 0.153961, 0.6)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 process_mode = 3
 libraries = {
@@ -96,80 +91,63 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/MarginContainer"]
-modulate = Color(0, 0, 0, 0)
-layout_mode = 2
-color = Color(0.103236, 0.015555, 0.153961, 0.6)
-
-[node name="MenuBox" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 50
 
-[node name="Stage Symbol" type="PanelContainer" parent="CanvasLayer/MarginContainer/MenuBox"]
+[node name="Stage Symbol" type="PanelContainer" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("2_hp486")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/MenuBox/Stage Symbol"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/Stage Symbol"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="StageLabel" type="Label" parent="CanvasLayer/MarginContainer/MenuBox/Stage Symbol/VBoxContainer"]
+[node name="StageLabel" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer/Stage Symbol/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 60
 text = "Stage Complete"
 
-[node name="Upgrades" type="PanelContainer" parent="CanvasLayer/MarginContainer/MenuBox"]
+[node name="Upgrades" type="PanelContainer" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("2_hp486")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/MenuBox/Upgrades"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/Upgrades"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/MenuBox/Upgrades/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer/Upgrades/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Pick One Upgrade"
 
-[node name="UpgradeButtons" type="HBoxContainer" parent="CanvasLayer/MarginContainer/MenuBox/Upgrades/VBoxContainer"]
-unique_name_in_owner = true
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/Upgrades/VBoxContainer"]
 layout_mode = 2
-theme = ExtResource("3_2ybma")
 
-[node name="Ricochet" type="Button" parent="CanvasLayer/MarginContainer/MenuBox/Upgrades/VBoxContainer/UpgradeButtons"]
-visible = false
+[node name="Ricochet" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Upgrades/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_2ybma")
 text = "Ricochet
 "
 
-[node name="Knockback" type="Button" parent="CanvasLayer/MarginContainer/MenuBox/Upgrades/VBoxContainer/UpgradeButtons"]
-visible = false
+[node name="Knockback" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Upgrades/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_2ybma")
 text = "Knockback
 "
 
-[node name="Lifesteal" type="Button" parent="CanvasLayer/MarginContainer/MenuBox/Upgrades/VBoxContainer/UpgradeButtons"]
-visible = false
+[node name="Lifesteal" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Upgrades/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_2ybma")
 text = "Lifesteal
 "
 
-[node name="Damage" type="Button" parent="CanvasLayer/MarginContainer/MenuBox/Upgrades/VBoxContainer/UpgradeButtons"]
-visible = false
-layout_mode = 2
-
-[connection signal="pressed" from="CanvasLayer/MarginContainer/MenuBox/Upgrades/VBoxContainer/UpgradeButtons/Ricochet" to="." method="_on_ricochet_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/MenuBox/Upgrades/VBoxContainer/UpgradeButtons/Knockback" to="." method="_on_knockback_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/MenuBox/Upgrades/VBoxContainer/UpgradeButtons/Lifesteal" to="." method="_on_lifesteal_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/MenuBox/Upgrades/VBoxContainer/UpgradeButtons/Damage" to="." method="_on_damage_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Upgrades/VBoxContainer/HBoxContainer/Ricochet" to="." method="_on_ricochet_pressed"]

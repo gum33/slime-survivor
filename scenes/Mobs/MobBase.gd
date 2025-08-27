@@ -7,6 +7,10 @@ const UpgradeTypes = preload("res://scenes/upgrade_types.gd")
 signal health_depleted
 @export var explosion_radius: float = 50.0
 
+var knockback_velocity: Vector2 = Vector2.ZERO
+@export
+var knockback_friction: float = 1000  # how quickly it stops
+
 @onready var player = get_node("/root/Game/World/Player")
 @export var death_pitch: float = 1.0
 @export var base_speed: float = 150
@@ -57,12 +61,16 @@ func _physics_process(delta: float) -> void:
 	velocity = desired_velocity	
 	if velocity.x != 0:
 		sprite.flip_h = velocity.x < 0
+	velocity += knockback_velocity
+	knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, knockback_friction * delta)
+	
 	# Move the mob
 	move_and_slide()
 
-func take_damage(damage: int) -> void:
+func take_damage(damage: int, knockback: Vector2) -> void:
 	if is_dead:
 		return
+	knockback_velocity = knockback
 	health -= damage
 	sprite.play("Hurt")
 	update_health_bar()

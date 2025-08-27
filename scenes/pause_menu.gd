@@ -12,10 +12,8 @@ func _on_resume_button_pressed() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		if get_tree().paused:
-			print("Unpausing")
 			get_tree().paused = false
 			visible = false
 		else:
-			print("Pausing")
 			get_tree().paused = true
 			visible = true

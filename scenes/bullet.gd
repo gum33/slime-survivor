@@ -1,12 +1,15 @@
 extends Area2D
 
 
+const SPEED: float = 1000
+const RANGE: int = 1200
 var travelled_distance = 0
 var damage: float = 25
+var ricochet: int = 0
+var knockback: float = 0
+var player: Player = null
+
 func _physics_process(delta: float) -> void:
-	const SPEED = 1000
-	const RANGE = 1200
-	
 	var direction = Vector2.RIGHT.rotated(rotation)
 	position += direction * SPEED * delta
 	
@@ -16,6 +19,34 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	queue_free()
+	if ricochet > 0 and body.is_in_group("mob"):
+		ricochet_to_next_target(body)
+		ricochet -= 1
+	else:
+		queue_free()
 	if body.has_method("take_damage"):
-		body.take_damage(damage)
+		var direction: Vector2 = Vector2.RIGHT.rotated(rotation)
+		var knockback_direction: Vector2 = direction * knockback
+		body.take_damage(damage, knockback_direction)
+		player.activate_lifesteal(damage)
+
+func ricochet_to_next_target(hit_mob: Node) -> void:
+	var mobs = get_tree().get_nodes_in_group("mob")
+	var closest: Node = null
+	var min_dist: float = 400
+
+	for mob in mobs:
+		if mob == hit_mob or mob.is_dead:
+			continue
+		var dist = global_position.distance_to(mob.global_position)
+		if dist < min_dist:
+			min_dist = dist
+			closest = mob
+
+	if closest:
+		# Change direction towards next mob
+		var new_direction = (closest.global_position - global_position).normalized()
+		rotation = new_direction.angle()
+	else:
+		# No targets left, maybe queue_free the bullet
+		queue_free()

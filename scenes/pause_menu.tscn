@@ -22,25 +22,33 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("2_v4r4p")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
-[node name="ResumeButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ResumeButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_1s2dm")
 text = "Resume"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("5_knqa7")
 
-[node name="volume_slider" parent="MarginContainer/PanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_88e76")]
+[node name="volume_slider" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_88e76")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 bus_name = "Master"
 
-[connection signal="pressed" from="MarginContainer/PanelContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]

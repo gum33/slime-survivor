@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://ce03i2s6m0uba"]
+[gd_scene load_steps=19 format=4 uid="uid://ce03i2s6m0uba"]
 
 [ext_resource type="PackedScene" uid="uid://c6kfyd6p7yg8" path="res://scenes/player.tscn" id="1_3cish"]
 [ext_resource type="Script" uid="uid://c7cvf8xlvuss2" path="res://scenes/survivors_game.gd" id="1_qqaft"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dtsabg5y665sh" path="res://scenes/mob_spawner.tscn" id="4_edxvn"]
 [ext_resource type="Texture2D" uid="uid://cipa5faph568t" path="res://assets/Tiles/medieval_tilesheet.png" id="5_4bwrk"]
 [ext_resource type="PackedScene" uid="uid://b8y0ypjh1pf5m" path="res://scenes/game_over.tscn" id="5_r0s3i"]
+[ext_resource type="PackedScene" uid="uid://cpg31r4r3km3w" path="res://scenes/level_transition.tscn" id="6_vt6sv"]
 [ext_resource type="PackedScene" uid="uid://cmxfqoahbcguw" path="res://scenes/pause_menu.tscn" id="7_5beo8"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_l26od"]
@@ -2750,6 +2751,8 @@ autostart = true
 
 [node name="GameOver" parent="." instance=ExtResource("5_r0s3i")]
 visible = false
+
+[node name="LevelTransition" parent="." instance=ExtResource("6_vt6sv")]
 
 [node name="SpawnPosition" type="Marker2D" parent="."]
 position = Vector2(755, 539)

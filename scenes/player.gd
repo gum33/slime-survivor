@@ -1,12 +1,14 @@
 extends CharacterBody2D
-
+class_name Player
 signal health_depleted
 signal damage_changed(new_damage)
 signal speed_changed(new_speed)
 signal fire_rate_changed(new_rate)
 const UpgradeTypes = preload("res://scenes/upgrade_types.gd")
+var pause_scene = preload("res://scenes/level_transition.tscn")
 
 @onready var gun: Node = $Gun
+const MAX_HEALTH: float = 100.0
 var health: float = 100
 var speed: float = 500
 var bullet_speed: float = 1.0
@@ -22,6 +24,9 @@ var knockback_velocity: Vector2 = Vector2.ZERO
 var knockback_friction: float = 1200  # how quickly it stops
 var is_hurt: bool = false
 var is_dead: bool = false
+
+@export
+var lifesteal: float = 0
 func _ready() -> void:
 	sprite.animation = "Run"
 	sprite.play()
@@ -32,6 +37,7 @@ func _ready() -> void:
 		preload("res://assets/sounds/player_hit/hit3.wav")
 	]
 	add_to_group("player")
+	pause_scene
 	$HurtBox.body_entered.connect(_on_body_entered)
 
 
@@ -63,7 +69,9 @@ func play_hurt_animation() -> void:
 
 func apply_knockback(direction: Vector2, strength: float):
 	knockback_velocity = direction * strength
-
+	
+func activate_lifesteal(damage: float) -> void:
+	set_health(health + damage * lifesteal)
 func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
@@ -85,7 +93,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		sprite.flip_h = false
 
+
+
 func set_health(value: float) -> void:
+	value = min(MAX_HEALTH, value)
 	health = value
 	%ProgressBar.value = health
 	if health <= 0.0:
@@ -103,6 +114,15 @@ func set_damage(damage: float) -> void:
 	gun.damage = damage
 	emit_signal("damage_changed", damage)
 
+func set_ricochet(value: float) -> void:
+	gun.ricochet = value
+
+func set_knockback(value: float) -> void:
+	gun.knockback = value
+	
+func set_lifesteal(value: float) -> void:
+	lifesteal = value
+
 func upgrade(upgrade_type: int) -> void:
 	match upgrade_type:
 		UpgradeTypes.UpgradeType.MOVE_SPEED:
@@ -114,4 +134,10 @@ func upgrade(upgrade_type: int) -> void:
 			emit_signal("fire_rate_changed", new_rate)
 		UpgradeTypes.UpgradeType.DAMAGE:
 			set_damage(gun.damage + 10)
+		UpgradeTypes.UpgradeType.RICOCHET:
+			set_ricochet(gun.ricochet + 1)
+		UpgradeTypes.UpgradeType.KNOCKBACK:
+			set_knockback(gun.knockback+400)
+		UpgradeTypes.UpgradeType.LIFESTEAL:
+			set_lifesteal(lifesteal + 0.03)
 			

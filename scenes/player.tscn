@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://c6kfyd6p7yg8"]
+[gd_scene load_steps=24 format=3 uid="uid://c6kfyd6p7yg8"]
 
 [ext_resource type="PackedScene" uid="uid://pbmyh1qru7p" path="res://assets/characters/happy_boo/happy_boo.tscn" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://dtbpep536mrd5" path="res://scenes/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bcvd8cqytws4b" path="res://assets/characters/vietnam_war2.png" id="2_dqkch"]
 [ext_resource type="PackedScene" uid="uid://c2qumq6kmfyq8" path="res://scenes/gun.tscn" id="3_i3pqv"]
 [ext_resource type="AudioStream" uid="uid://c8pirshm010uo" path="res://assets/sounds/player_hit/death_scream.wav" id="5_qlg0r"]
+[ext_resource type="Script" uid="uid://b1dej3bbdhb5a" path="res://scenes/upgrades.gd" id="6_tuyoq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qlg0r"]
 atlas = ExtResource("2_dqkch")
@@ -182,3 +183,6 @@ show_percentage = false
 
 [node name="DeathScream" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_qlg0r")
+
+[node name="Upgrades" type="Node2D" parent="."]
+script = ExtResource("6_tuyoq")

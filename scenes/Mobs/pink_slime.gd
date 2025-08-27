@@ -5,6 +5,7 @@ var speed_factor = 1.5
 
 func _ready():
 	super._ready()
+	knockback_friction = 700
 	speed *= speed_factor
 	max_health *= health_factor
 	health = max_health

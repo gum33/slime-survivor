@@ -35,12 +35,13 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("3_bqqt6")
+theme_override_constants/separation = 20
 
 [node name="Label" type="Label" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 60
-text = "Survive the game"
+text = "Slime Survivor"
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2

@@ -4,6 +4,11 @@ extends Area2D
 @export var damage: float = 25
 @onready var sprite: AnimatedSprite2D = $WeaponPivot/GunSprite
 var stop_fire: bool = false
+var ricochet: int = 0
+@export
+var knockback = 0
+@onready var player: Player = get_parent()  # assuming gun is child of Player
+
 func _physics_process(delta: float) -> void:
 	if stop_fire:
 		return
@@ -26,10 +31,13 @@ func shoot():
 		return
 	const BULLET = preload("res://scenes/bullet.tscn")
 	var new_bullet = BULLET.instantiate()
+	get_tree().current_scene.add_child(new_bullet)
+	new_bullet.player = player
+	new_bullet.knockback = knockback
+	new_bullet.ricochet = ricochet
 	new_bullet.damage = damage
 	new_bullet.global_position = %ShootingPoint.global_position
 	new_bullet.global_rotation = %ShootingPoint.global_rotation
-	%ShootingPoint.add_child(new_bullet)
 	$ShootSound.pitch_scale = randf_range(0.95, 1.05)
 	$ShootSound.play()
 

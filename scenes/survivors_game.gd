@@ -8,8 +8,10 @@ var mob_level_kills_required = 5
 @onready var navigation_2d = get_tree().get_first_node_in_group("navigation_2d")
 @onready var camera: Camera2D = $World/Camera2D
 @onready var wall_tilemap: TileMapLayer = $World/TileContainer/Wall
+@onready var level_transition: Control = $LevelTransition
 var tree_spawner: Node = null
 var PLAY_AREA: Rect2
+const UpgradeTypes = preload("res://scenes/upgrade_types.gd")
 
 func _ready():
 	var player = %Player
@@ -21,7 +23,7 @@ func _ready():
 	camera.limit_top = used_rect.position.y * tile_size.y
 	camera.limit_right = (used_rect.position.x + used_rect.size.x) * tile_size.x
 	camera.limit_bottom = (used_rect.position.y + used_rect.size.y) * tile_size.y
-
+	
 	PLAY_AREA = Rect2(
 		wall_tilemap.map_to_local(used_rect.position),
 		wall_tilemap.map_to_local(used_rect.end) - wall_tilemap.map_to_local(used_rect.position)
@@ -32,11 +34,14 @@ func _ready():
 	tree_spawner.tree_scene = preload("res://scenes/pine_tree.tscn")
 	tree_spawner.spawn_trees(PLAY_AREA)
 	$World/NavigationRegion2D.bake_navigation_polygon()
-
+	
+	connect_level_transition(level_transition)
 func _physics_process(delta: float) -> void:
 	camera.position = %Player.global_position
 
-		
+func connect_level_transition(transition: Control) -> void:
+	level_transition.gameplay_scene = get_tree().current_scene
+	transition.upgrade_selected.connect(_on_upgrade_selected)
 
 func reset_trees():
 	for tree in get_tree().get_nodes_in_group("tree"):
@@ -78,10 +83,11 @@ func load_next_level():
 	for mob in mobs:
 		mob.can_drop_upgrade = false
 		mob.die()
-	var level_transition = preload("res://scenes/level_transition.tscn").instantiate()
-	$HUD.add_child(level_transition)
+	level_transition.transition_level()
 	
-	
+func _on_upgrade_selected(upgrade_type: int) -> void:
+	%Player.upgrade(upgrade_type)
+	level_transition.start_next_level()
 
 func setup_next_level():
 	Global.set_level(Global.level + 1)
