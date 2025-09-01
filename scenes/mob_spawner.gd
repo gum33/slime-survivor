@@ -16,6 +16,8 @@ var mob_scenes = [
 	{"scene": preload("res://scenes/Mobs/pink_slime.tscn"), "min_level": 2}
 ]
 
+
+
 func get_random_mob_scene() -> PackedScene:
 	var eligible = []
 	for mob in mob_scenes:
@@ -47,11 +49,22 @@ func get_spawn_position() -> Vector2:
 	
 	# Correctly calculate the play area from the TileMap's used tiles
 	var used_rect = wall_tilemap.get_used_rect()
-	var play_area = Rect2(
-		wall_tilemap.to_global(wall_tilemap.map_to_local(used_rect.position)),
-		wall_tilemap.to_global(wall_tilemap.map_to_local(used_rect.end) - wall_tilemap.map_to_local(used_rect.position))
-	)
+	var cell_size = wall_tilemap.tile_set.tile_size
 
+	# Convert the used_rect (in tile coordinates) to global rect
+	var top_left = wall_tilemap.map_to_local(used_rect.position)
+	var bottom_right = wall_tilemap.map_to_local(used_rect.end)
+
+	# Convert both points to global space
+	top_left = wall_tilemap.to_global(top_left)
+	bottom_right = wall_tilemap.to_global(bottom_right)
+
+	# Build the rect using position + size
+	var margin = Vector2(16, 16)
+	top_left += margin
+	bottom_right -= margin
+
+	var play_area = Rect2(top_left, bottom_right - top_left)
 	# Get the camera's visible area in world coordinates
 	var visible_area = cam.get_viewport().get_visible_rect()
 	visible_area.position = cam_center - visible_area.size / 2.0
@@ -59,7 +72,6 @@ func get_spawn_position() -> Vector2:
 	# Define a spawning distance range
 	var min_dist = max(visible_area.size.x, visible_area.size.y) * 0.7
 	var max_dist = min_dist + 500.0 # Adjust this value as needed
-	
 	var max_tries = 50
 	for i in range(max_tries):
 		# 1. Generate a random point in a ring around the camera

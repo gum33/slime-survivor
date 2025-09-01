@@ -31,8 +31,8 @@ var rare_upgrades: Array[UpgradeType] = [
 	UpgradeType.RICOCHET,
 ]
 var rarities = {
-	common_upgrades: 1000,
-	rare_upgrades: 500
+	common_upgrades: 80,
+	rare_upgrades: 20,
 }
 var rng = RandomNumberGenerator.new()
 
@@ -41,9 +41,9 @@ var upgrade_names: Dictionary[UpgradeType, String] = {
 	UpgradeType.MOVE_SPEED: "Move speed",
 	UpgradeType.BULLET_SPEED: "Fire Rate",
 	UpgradeType.DAMAGE: "Damage",
-	UpgradeType.KNOCKBACK: "Knockback",
-	UpgradeType.LIFESTEAL: "Lifesteal",
-	UpgradeType.RICOCHET: "Ricochet",
+	UpgradeType.KNOCKBACK: "Knockback!",
+	UpgradeType.LIFESTEAL: "Lifesteal!",
+	UpgradeType.RICOCHET: "Ricochet!",
 }
 
 func get_item_weighted() -> UpgradeType:

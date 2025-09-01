@@ -5,13 +5,14 @@ extends Node2D
 var score: int = 0
 var mob_level_kill_count = 0
 var mob_level_kills_required = 5
+
 @onready var navigation_2d = get_tree().get_first_node_in_group("navigation_2d")
 @onready var camera: Camera2D = $World/Camera2D
 @onready var wall_tilemap: TileMapLayer = $World/TileContainer/Wall
 @onready var level_transition: Control = $LevelTransition
 var tree_spawner: Node = null
 var PLAY_AREA: Rect2
-const UpgradeTypes = preload("res://scenes/upgrade_types.gd")
+
 
 func _ready():
 	var player = %Player
@@ -36,6 +37,7 @@ func _ready():
 	$World/NavigationRegion2D.bake_navigation_polygon()
 	
 	connect_level_transition(level_transition)
+
 func _physics_process(delta: float) -> void:
 	camera.position = %Player.global_position
 
@@ -56,15 +58,23 @@ func reset_trees():
 func reset_level_state() -> void:
 	%Player.global_position = $SpawnPosition.global_position
 	camera.global_position = $SpawnPosition.global_position
+	MobManager.drop_count = 0
 	mob_level_kill_count = 0
 	mob_level_kills_required = ceil(mob_level_kills_required * 1.5)
 	reset_trees()
 	$MobTimer.paused = false
 
 func spawn_mob():
+	if MobManager.mob_count >= MobManager.MAX_MOBS:
+		return
 	var mob = $MobSpawner.make_mob()
 	navigation_2d.add_child(mob)
 	mob.health_depleted.connect(_on_mob_health_depleted)
+
+
+
+
+	
 
 
 func _on_mob_health_depleted() -> void:

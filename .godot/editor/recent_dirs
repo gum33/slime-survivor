@@ -1,4 +1,5 @@
 C:/Users/Gummi/Documents/2d-project-start/slime-survivor/.build
+res://autoload
 res://assets/sounds/player_hit
 res://scenes
 res://assets/UI
@@ -12,5 +13,4 @@ res://scenes/Mobs
 res://assets/characters/SlimeARt
 res://assets/trees
 res://assets/characters/happy_boo
-res://autoload
 res://

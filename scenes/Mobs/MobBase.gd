@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var max_health = 100 + (3*Global.level)
+@export var max_health = 99 + pow(Global.level, 3)
 @export var damage = 10
 var upgrade_chance = 0.1
 const UpgradeTypes = preload("res://scenes/upgrade_types.gd")
@@ -24,11 +24,15 @@ var health: float
 var is_dead: bool = false 
 ## Flag that disables mob being able to drop upgrades
 var can_drop_upgrade: bool = true
+var nav_update_timer: float = 0.0
+
+signal upgrade_dropped
 
 func _ready() -> void:
+	MobManager.register_mob(self)
 	$NavAgent.radius = $CollisionShape2D.shape.radius + 10
 	$DeathPop.pitch_scale = death_pitch
-	speed = base_speed * pow(1.2, Global.level -1)
+	speed = base_speed * pow(1.1, Global.level -1)
 	health = max_health
 	sprite.animation = "Idle"
 	sprite.play()
@@ -47,24 +51,20 @@ func _physics_process(delta: float) -> void:
 		return
 	if nav_agent.is_navigation_finished():
 		return
-	# Tell the navigation agent where to go.
-	nav_agent.target_position = player.global_position
+	nav_update_timer -= delta
+	if nav_update_timer <= 0.0:
+		nav_agent.target_position = player.global_position
+		nav_update_timer = 0.33  # update path 4 times per second
 
-	# Get the next point in the path from the agent
 	var axis = to_local(nav_agent.get_next_path_position()).normalized()
 	
-	# Calculate the desired velocit
 	var desired_velocity = axis * speed
 	
-	# Set the CharacterBody2D's velocity to the desired velocity
-	# This is what move_and_slide() will use
 	velocity = desired_velocity	
 	if velocity.x != 0:
 		sprite.flip_h = velocity.x < 0
 	velocity += knockback_velocity
 	knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, knockback_friction * delta)
-	
-	# Move the mob
 	move_and_slide()
 
 func take_damage(damage: int, knockback: Vector2) -> void:
@@ -93,7 +93,11 @@ func die() -> void:
 	$AnimatedSprite2D.scale *= 1.3
 	$CollisionShape2D.call_deferred("set", "disabled", true)
 	is_dead = true
-	if randf() < upgrade_chance and can_drop_upgrade:
+	if (
+		randf() < upgrade_chance 
+		and can_drop_upgrade 
+		and MobManager.drop_count < MobManager.MAX_DROPS
+	):
 		pick_upgrade()
 	sprite.play("Death")
 	$DeathPop.play()
@@ -126,11 +130,12 @@ func pick_upgrade():
 func drop_upgrade(type: int, texture: Texture2D) -> void:
 	const UPGRADE = preload("res://scenes/speedboost.tscn")
 	var new_upgrade = UPGRADE.instantiate()
+	MobManager.drop_count += 1
 	new_upgrade.upgrade_type = type
 	new_upgrade.sprite_texture = texture
-	get_parent().add_child(new_upgrade)
-	new_upgrade.global_position = global_position
-	
+	get_parent().call_deferred("add_child", new_upgrade)
+	new_upgrade.global_position = position
+	emit_signal("upgrade_dropped")
 	# Call its bounce animation
 	if new_upgrade.has_method("play_spawn_bounce"):
 		new_upgrade.play_spawn_bounce()
